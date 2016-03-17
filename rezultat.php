@@ -11,11 +11,22 @@
 
 <p>
     <?php
+    //INSERT INTO students (name, surname) VALUES ('ime', 'prezime');
+    $conn->query("INSERT INTO students (name, surname) VALUES ('" . $_POST['ime'] ."','" . $_POST['prezime'] . "');");
 
-    if ($result = $conn->query("SELECT * FROM students")) {
+    $result = $conn->query("SELECT * FROM students ORDER BY surname");
+    if ($result){
+        while ($row = $result->fetch_object()){
+            //print_r($row);
+            echo('Ime: ' . $row->name . ' ' . $row->surname . '<br>');
+        }
+        $result->close();
+        $conn->next_result();
+    }
+    /*if ($result = $conn->query("SELECT * FROM students")){
         printf("Select returned %d rows.\n", $result->num_rows);
         $result->close();
-    }
+    }*/
 
     if ($_POST['spol'] == 'M') {
         $class = 'musko';
